@@ -1,0 +1,175 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    margin: 0;
+    background-image: url('roller(0).png'); /* Initial frame is 25 */
+    background-size: cover; /* Cover the entire container */
+    font-family: 'Arial Rounded MT Bold', sans-serif;
+    color: #fff;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    font-weight: bold;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    background-color: #333;
+    color: #fff;
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 
+                0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+header a {
+    margin-right: 20px;
+}
+
+header img {
+    width: 50px;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+#apparatus-container {
+    text-align: center;
+    position: relative;
+}
+
+#apparatus-img {
+    width: 60px;
+    cursor: pointer;
+    transition: transform 0.5s ease-in-out;
+}
+
+#center-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#counter-container {
+    position: relative;
+    z-index: 1;
+}
+
+#click-counter {
+    position: relative;
+    margin-top: -50px; /* Adjust this value to position the counter above the image */
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    font-size: 6em; /* Increased font size */
+    z-index: 1;
+    width: 200px; /* Adjust this value to accommodate the maximum number of digits */
+    text-align: center; /* Center the text within the fixed width */
+}
+.shake {
+    animation: shake 0.3s;
+}
+@keyframes shake {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    20% { transform: translate(-50%, -50%) rotate(-10deg); }
+    40% { transform: translate(-50%, -50%) rotate(10deg); }
+    60% { transform: translate(-50%, -50%) rotate(-10deg); }
+    80% { transform: translate(-50%, -50%) rotate(10deg); }
+    100% { transform: translate(-50%, -50%) rotate(0deg); }
+}
+
+.circle-button {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #333;
+    border: none;
+    cursor: pointer;
+}
+
+#left-button {
+    left: -80px; /* Adjust as needed */
+    top: 10%;
+    transform: translateY(-50%);
+}
+
+#right-button {
+    right: -80px; /* Adjust as needed */
+    top: 10%;
+    transform: translateY(-50%);
+}
+
+#progress-bar {
+    position: absolute;
+    left: -200px; /* Adjust as needed */
+    top: 0;
+    bottom: 0;
+    width: 40px; /* Adjust as needed */
+    background-color: #ccc;
+}
+
+#progress-fill {
+    background-color: #ffee00; /* Color of the fill */
+    width: 100%; /* Fill the entire width of the progress bar */
+    height: 0; /* Initial height is 0 */
+    position: absolute;
+    bottom: 0;
+}
+.smallshake {
+    animation: smallshake 0.1s;
+}
+
+@keyframes smallshake {
+    0% { transform: translate(1%) rotate(0deg); }
+    10% { transform: translate(-1%) rotate(-1deg); }
+    20% { transform: translate(-1%) rotate(1deg); }
+    30% { transform: translate(1%) rotate(0deg); }
+    40% { transform: translate(1%) rotate(1deg); }
+    50% { transform: translate(-1%) rotate(-1deg); }
+    60% { transform: translate(-1%) rotate(0deg); }
+    70% { transform: translate(1%) rotate(-1deg); }
+    80% { transform: translate(-1%) rotate(1deg); }
+    90% { transform: translate(1%) rotate(0deg); }
+    100% { transform: translate(1%) rotate(-1deg); }
+}
+
+
+#slider-bar {
+    position: absolute;
+    right: -200px; /* Adjust as needed */
+    top: 0;
+    bottom: 0;
+    width: 40px; /* Adjust as needed */
+    background-color: #ccc;
+}
+
+#slider-fill {
+    background-color: #ff0000; /* Color of the fill */
+    width: 100%; /* Fill the entire width of the progress bar */
+    height: 0; /* Initial height is 0 */
+    position: absolute;
+    bottom: 0;
+}
+
+#leaderboard {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#country-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+}
+
+#country-list:not(.collapsed) {
+    max-height: 500px; /* Adjust as needed */
+}
