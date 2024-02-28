@@ -107,7 +107,7 @@ main {
 
 #progress-bar {
     position: fixed;
-    background: linear-gradient(to bottom, #999, #ccc);
+    background: linear-gradient(to bottom, #c4c1c1, #504f4f);
     left: 0; /* Adjust as needed */
     top: 0;
     bottom: 0;
@@ -180,7 +180,7 @@ main {
 
 #slider-bar {
     position: fixed;
-    background: linear-gradient(to bottom, #999, #ccc);
+    background: linear-gradient(to bottom, #c4c1c1, #504f4f);
     top: 0;
     bottom: 0;
     right: 0;

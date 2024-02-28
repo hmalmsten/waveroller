@@ -100,10 +100,17 @@ function updateProgress() {
     progressBarFill.style.height = `${progress}%`;
 }
 
+// Get the current date and hour
+// Initialize the button click count
+let buttonClickCount = 0;
+
+// Initialize the fill percentage at 75%
+let fillPercentage = 75;
+
 setInterval(function() {
     const progressBar = document.getElementById('progress-bar');
     if (progress > 0) { // Only decrease progress if it's greater than 0
-        progress -= 0.05; // Decrease progress by 0.05% every 10ms
+        progress -= 0.05 * ((0.013 * fillPercentage) + 0.01); // Decrease progress by 0.05% every 10ms
         updateProgress(); // Update the progress bar
     }
     if (progress > 80 && !progressBar.classList.contains('smallshake')){
@@ -134,6 +141,26 @@ function updatePointer() {
 
 let intervalId = null;
 
+// Function to update the fill percentage
+function updateFillPercentage() {
+    // Generate a random number between 0 and 1
+    let random = Math.random();
+
+    // If the random number is less than 0.5, decrease the fill percentage by 5%
+    // Otherwise, increase it by 3%
+    fillPercentage += random < 0.5 ? -4 : 3;
+
+    // Ensure the fill percentage stays within the range 0-100%
+    fillPercentage = Math.max(0, Math.min(100, fillPercentage));
+
+    // Update the height of the fill element
+    fill.style.height = fillPercentage + '%';
+}
+
+// Update the fill element when the page loads
+var fill = document.getElementById('slider-fill');
+fill.style.height = fillPercentage + '%';
+
 document.getElementById('right-button').onclick = function() {
     if (currentFrame != images.length - 1) {
     // Clear the previous interval
@@ -157,6 +184,11 @@ document.getElementById('right-button').onclick = function() {
         }
     }, 1000 / images.length); // Set the interval so that all frames are shown within a second
 }
+
+    buttonClickCount++;
+    if (buttonClickCount % 5 === 0) {
+        updateFillPercentage();
+    }
 }
 
 document.getElementById('left-button').onclick = function() {
@@ -182,6 +214,10 @@ document.getElementById('left-button').onclick = function() {
         }
     }, 1000 / images.length); // Set the interval so that all frames are shown within a second
 }
+    buttonClickCount++;
+    if (buttonClickCount % 5 === 0) {
+        updateFillPercentage();
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -239,27 +275,6 @@ function rotateApparatus() {
     storeEnergy(Math.round(progress * penalty * bonus));
     updateProgress();
 }
-
-
-// Get the current date and hour
-var date = new Date();
-var seed = date.getDate() * 100 + date.getHours(); // Generate a seed from the current date and hour
-
-// Simple pseudo-random number generator
-function pseudoRandom(seed) {
-    var x = Math.sin(seed++) * 10000;
-    return x - Math.floor(x);
-}
-
-// Calculate the fill percentage based on the pseudo-random number
-// This will result in a fill percentage between 20% and 100%
-var fillPercentage = 20 + pseudoRandom(seed) * 80;
-console.log(fillPercentage);
-// Select the fill element
-var fill = document.getElementById('slider-fill');
-
-// Set the height of the fill element
-fill.style.height = fillPercentage + '%';
 
 document.getElementById('leaderboard-toggle').addEventListener('click', function() {
     var countryList = document.getElementById('country-list');
