@@ -106,20 +106,58 @@ main {
 }
 
 #progress-bar {
-    position: absolute;
-    left: -200px; /* Adjust as needed */
+    position: fixed;
+    background: linear-gradient(to bottom, #999, #ccc);
+    left: 0; /* Adjust as needed */
     top: 0;
     bottom: 0;
-    width: 40px; /* Adjust as needed */
+    margin: 20px; /* Add space around the bar */
+    top: 80px;
+    width: 80px; /* Adjust as needed */
     background-color: #ccc;
+    display: flex;
+    align-items: flex-end;
+    float: left;
+    border-radius: 10px;
+}
+.progress-bar-striped {
+    background-image: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.15) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.15) 75%,
+        transparent 75%,
+        transparent
+    );
+    background-size: 40px 40px;
+    border-radius: 20px;
 }
 
+.progress-bar.active {
+    animation: progress-bar-stripes 2s linear infinite;
+}
+
+@keyframes progress-bar-stripes {
+    from {
+        background-position: 40px 0;
+    }
+    to {
+        background-position: 0 0;
+    }
+}
 #progress-fill {
-    background-color: #ffee00; /* Color of the fill */
+    background-color: #e5ff0093; /* Color of the fill */
     width: 100%; /* Fill the entire width of the progress bar */
     height: 0; /* Initial height is 0 */
     position: absolute;
     bottom: 0;
+    border-radius: 20px;
+    -webkit-transition: height 0.2s ease;
+    -o-transition: height 0.2s ease;
+    transition: height 0.2s ease;
+    border-radius: 10px;
 }
 .smallshake {
     animation: smallshake 0.1s;
@@ -141,20 +179,32 @@ main {
 
 
 #slider-bar {
-    position: absolute;
-    right: -200px; /* Adjust as needed */
+    position: fixed;
+    background: linear-gradient(to bottom, #999, #ccc);
     top: 0;
     bottom: 0;
-    width: 40px; /* Adjust as needed */
+    right: 0;
+    margin: 20px; /* Add space around the bar */
+    top: 80px;
+    width: 80px; /* Adjust as needed */
     background-color: #ccc;
+    display: flex;
+    align-items: flex-end;
+    float: left;
+    border-radius: 10px;
+
 }
 
 #slider-fill {
-    background-color: #ff0000; /* Color of the fill */
+    background-color: #ff00009d; /* Color of the fill */
     width: 100%; /* Fill the entire width of the progress bar */
     height: 0; /* Initial height is 0 */
     position: absolute;
     bottom: 0;
+    border-radius: 10px;
+    -webkit-transition: height 0.6s ease;
+    -o-transition: height 0.6s ease;
+    transition: height 0.6s ease;
 }
 
 #leaderboard {
@@ -173,3 +223,4 @@ main {
 #country-list:not(.collapsed) {
     max-height: 500px; /* Adjust as needed */
 }
+
