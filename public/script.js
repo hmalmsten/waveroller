@@ -1,4 +1,3 @@
-// File: script.js
 let clickCounts = {};
 
 // Initialize the selected country
@@ -6,19 +5,23 @@ async function getCountry() {
     try {
         const response = await fetch('https://ipwho.is/');
         const data = await response.json();
-        return data.country_code; 
+        console.log('Country data:', data);
+        const country = data.country;
+        const code = data.country_code;
+        return [country, code];
     } catch (error) {
         console.error('Error getting country:', error);
-        return 'FI'; // Default country if detection fails
+        return 'Finland', 'FI'; // Default country if detection fails
     }
 }
  
 // Initialize the selected country
-getCountry().then(country => {
-    userCountry = country;
+getCountry().then((data) => {
     // Fetch initial click count and leaderboard data
+    userCountry = data[0];
+    countryCode = data[1];
     updateCounter();
-    updateFlag(country);
+    updateFlag(countryCode);
 
     fetch('/leaderboard')
         .then(response => response.json())
@@ -31,7 +34,7 @@ function storeEnergy(amount) {
     // Increment the click count for the selected country
 
     // Update the click count on the server
-    updateServerClickCount(userCountry, amount);
+    updateServerClickCount(userCountry, countryCode, amount);
 
     counterElement.classList.add('shake');
 
@@ -59,7 +62,7 @@ function updateCounter() {
     });
 }
 
-function updateServerClickCount(country, count) {
+function updateServerClickCount(country, countryCode, count) {
     // Update the click count on the server for the specified country
     console.log('Updating click count for', country, 'by', count);
     fetch('/click', {
@@ -67,7 +70,7 @@ function updateServerClickCount(country, count) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ country: country, count: count }),
+        body: JSON.stringify({ country: country, countryCode: countryCode, count: count }),
     })
     .then(updateCounter())
     .catch(error => {
@@ -75,16 +78,34 @@ function updateServerClickCount(country, count) {
     });
 }
 
-function updateLeaderboard(leaderboard) {
-    // Update the leaderboard on the client
-    const countryList = document.getElementById('country-list');
-    countryList.innerHTML = '';
+function updateLeaderboard() {
+    // Get the leaderboard container
+    var leaderboardContainer = document.getElementById('all-countries');
 
-    leaderboard.forEach(entry => {
-        const listItem = document.createElement('li');
-        listItem.innerHTML = `<img src="https://flagsapi.com/${entry.country}/flat/24.png" alt="Flag of ${entry.country}"> : ${entry.clickCount}`;
-        countryList.appendChild(listItem);
-    });
+    // Clear the current leaderboard
+    while (leaderboardContainer.firstChild) {
+        leaderboardContainer.removeChild(leaderboardContainer.firstChild);
+    }
+
+    // Fetch the updated leaderboard data from the server
+    fetch('/leaderboard')
+        .then(response => response.json())
+        .then(data => {
+            const leaderboard = data.leaderboard;
+
+            // Create new elements for each country in the leaderboard
+            leaderboard.forEach((country, index) => {
+                var countryElement = document.createElement('div');
+                countryElement.innerHTML = `
+                    <span>${index + 1}</span>
+                    <img src="https://flagsapi.com/${country.countryCode}/flat/24.png">
+                    <span>${country.country}</span>
+                    <span>${country.clickCounts}</span>
+                `;
+                leaderboardContainer.appendChild(countryElement);
+            });
+        })
+        .catch(error => console.error('Error:', error));
 }
 
 function updateFlag(countryCode) {
@@ -220,13 +241,42 @@ document.getElementById('left-button').onclick = function() {
     }
 }
 
+document.getElementById('right-button').onmousedown = function() {
+    this.classList.add('button-pressed');
+}
+
+document.getElementById('right-button').onmouseup = function() {
+    this.classList.remove('button-pressed');
+}
+
+document.getElementById('left-button').onmousedown = function() {
+    this.classList.add('button-pressed');
+}
+
+document.getElementById('left-button').onmouseup = function() {
+    this.classList.remove('button-pressed');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('keydown', function(event) {
         if (event.key === 'ArrowRight') {
-            document.getElementById('left-button').click();
+            const leftButton = document.getElementById('left-button');
+            leftButton.click();
+            leftButton.classList.add('button-pressed');
         }
         if (event.key === 'ArrowLeft') {
-            document.getElementById('right-button').click();
+            const rightButton = document.getElementById('right-button');
+            rightButton.click();
+            rightButton.classList.add('button-pressed');
+        }
+    });
+
+    window.addEventListener('keyup', function(event) {
+        if (event.key === 'ArrowRight') {
+            document.getElementById('left-button').classList.remove('button-pressed');
+        }
+        if (event.key === 'ArrowLeft') {
+            document.getElementById('right-button').classList.remove('button-pressed');
         }
     });
 });
@@ -275,8 +325,15 @@ function rotateApparatus() {
     storeEnergy(Math.round(progress * penalty * bonus));
     updateProgress();
 }
+document.getElementById('leaderboard').addEventListener('click', function() {
+    var leaderboard = document.getElementById('leaderboard');
+    var allCountries = document.getElementById('all-countries');
 
-document.getElementById('leaderboard-toggle').addEventListener('click', function() {
-    var countryList = document.getElementById('country-list');
-    countryList.classList.toggle('collapsed');
+    if (leaderboard.style.height !== '75vh') {
+        leaderboard.style.height = '75vh';
+        allCountries.style.display = 'block';
+    } else {
+        leaderboard.style.height = '50px';
+        allCountries.style.display = 'none';
+    }
 });

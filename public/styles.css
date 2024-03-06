@@ -71,6 +71,7 @@ main {
     z-index: 1;
     width: 200px; /* Adjust this value to accommodate the maximum number of digits */
     text-align: center; /* Center the text within the fixed width */
+    
 }
 .shake {
     animation: shake 0.3s;
@@ -92,6 +93,13 @@ main {
     bottom: 30px;
     background-size: cover;
     transform: translateY(-50%);
+    border: 2px solid black;
+}
+.circle-button:active {
+    filter: brightness(80%);
+}
+.button-pressed {
+    filter: brightness(80%);
 }
 
 #left-button {
@@ -120,6 +128,7 @@ main {
     align-items: flex-end;
     float: left;
     border-radius: 10px;
+    border: 2px solid black;
 }
 .progress-bar-striped {
     background-image: linear-gradient(
@@ -193,6 +202,7 @@ main {
     align-items: flex-end;
     float: left;
     border-radius: 10px;
+    border: 2px solid black;
 
 }
 
@@ -209,19 +219,27 @@ main {
 }
 
 #leaderboard {
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
-    cursor: pointer;
+    position: fixed;
+    bottom: 0;
+    left: 35%;
+    right: 35%;
+    width: 30%;
+    height: 50px; /* Adjust as needed */
+    transition: height 0.5s ease-in-out;
+    overflow: auto;
+    background-color: #f8f9fa; /* Adjust as needed */
+    transition: height 0.5s ease-in-out;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    z-index: 1;
+    border: 2px solid black;
 }
 
-#country-list {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease-out;
+#top-country {
+    /* Styles for the top country details */
 }
 
-#country-list:not(.collapsed) {
-    max-height: 500px; /* Adjust as needed */
+#all-countries {
+    display: none;
+    /* Styles for all countries details */
 }
-
