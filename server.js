@@ -4,6 +4,16 @@ const fs = require('fs');
 
 let clickCounts = [];
 
+// Check if the file exists
+if (fs.existsSync('clickCounts.json')) {
+    // If the file exists, read the data into the clickCounts array
+    clickCounts = JSON.parse(fs.readFileSync('clickCounts.json', 'utf8'));
+} else {
+    // If the file doesn't exist, create a new file with an empty array
+    fs.writeFileSync('clickCounts.json', JSON.stringify([]));
+}
+
+
 app.use(express.static('public'));  // Serve static files from 'public' directory
 app.use(express.json());
 
@@ -25,21 +35,21 @@ app.post('/click', (req, res) => {
     const country = req.body.country || 'Finland';
     const count = req.body.count || 0;
     const countryCode = req.body.countryCode || 'FI';
-    // Find the object for the country
-    let countryObj = clickCounts.find(obj => obj.country === country);
+    // Find the index of the object for the country
+    let index = clickCounts.findIndex(obj => obj.country === country);
     // If it doesn't exist, create a new object and push it to the array
-    if (!countryObj) {
-        countryObj = { country, countryCode, clickCounts: 0 };
-        clickCounts.push(countryObj);
+    if (index === -1) {
+        clickCounts.push({ country, countryCode, clickCounts: count });
+    } else {
+        // Increment the click count of the existing object
+        clickCounts[index].clickCounts += count;
     }
-    // Increment the click count
-    countryObj.clickCounts += count;
-    console.log ('clickCounts:', countryObj.clickCounts);
+    console.log ('clickCounts:', clickCounts);
     // Save the updated counts to a file or a database
     fs.writeFileSync('clickCounts.json', JSON.stringify(clickCounts));
 
     // Send the updated count back to the client
-    res.json({ count: countryObj.clickCounts });
+    res.json({ count: clickCounts[index].clickCounts });
 });
 
 app.get('/leaderboard', (req, res) => {

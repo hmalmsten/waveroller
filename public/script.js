@@ -92,15 +92,32 @@ function updateLeaderboard() {
         .then(response => response.json())
         .then(data => {
             const leaderboard = data.leaderboard;
+            const topCountry = data.leaderboard[0]; // Get the top country
+
+            // Create the HTML for the top country
+            var countryHTML = `
+                <div>
+                    <span class="rank">1</span>
+                    <img class="flag" src="https://flagsapi.com/${topCountry.countryCode}/flat/24.png" alt="flag">
+                    <span class="country-name">${topCountry.country}</span>
+                </div>
+                <span class="score">${topCountry.clickCounts}</span>
+            `;
+
+            // Update the top country in the leaderboard
+            document.getElementById('top-country').innerHTML = countryHTML;
 
             // Create new elements for each country in the leaderboard
-            leaderboard.forEach((country, index) => {
+            leaderboard.slice(1).forEach((country, index) => {
                 var countryElement = document.createElement('div');
+                countryElement.className = 'leaderboard-item';
                 countryElement.innerHTML = `
-                    <span>${index + 1}</span>
-                    <img src="https://flagsapi.com/${country.countryCode}/flat/24.png">
-                    <span>${country.country}</span>
-                    <span>${country.clickCounts}</span>
+                    <div>
+                        <span class="rank">${index + 1}</span>
+                        <img class="flag" src="https://flagsapi.com/${country.countryCode}/flat/24.png" alt="flag">
+                        <span class="country-name">${country.country}</span>
+                    </div>
+                    <span class="score">${country.clickCounts}</span>
                 `;
                 leaderboardContainer.appendChild(countryElement);
             });
@@ -326,14 +343,12 @@ function rotateApparatus() {
     updateProgress();
 }
 document.getElementById('leaderboard').addEventListener('click', function() {
+    updateLeaderboard();
     var leaderboard = document.getElementById('leaderboard');
     var allCountries = document.getElementById('all-countries');
 
-    if (leaderboard.style.height !== '75vh') {
-        leaderboard.style.height = '75vh';
-        allCountries.style.display = 'block';
+    if (leaderboard.style.maxHeight !== '75vh') {
+        leaderboard.style.maxHeight = '75vh';
     } else {
-        leaderboard.style.height = '50px';
-        allCountries.style.display = 'none';
-    }
+        leaderboard.style.maxHeight = '46px';    }
 });

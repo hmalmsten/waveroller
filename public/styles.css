@@ -224,15 +224,21 @@ main {
     left: 35%;
     right: 35%;
     width: 30%;
-    height: 50px; /* Adjust as needed */
-    transition: height 0.5s ease-in-out;
-    overflow: auto;
+    max-height: 46px; /* Adjust as needed */
+    transition: max-height 0.3s ease-in-out;
+    overflow: visible;
     background-color: #f8f9fa; /* Adjust as needed */
-    transition: height 0.5s ease-in-out;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     z-index: 1;
     border: 2px solid black;
+}
+.leaderboard-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+    padding: 10px;
 }
 
 #top-country {
@@ -240,6 +246,6 @@ main {
 }
 
 #all-countries {
-    display: none;
+
     /* Styles for all countries details */
 }
