@@ -4,33 +4,22 @@ body {
     justify-content: space-between;
     height: 100vh;
     margin: 0;
-    background-image: url('roller(0).png'); /* Initial frame is 25 */
+    background: url('roller(0).png') no-repeat center center fixed, rgb(207, 239, 250); /* Initial frame is 25 */
     background-size: cover; /* Cover the entire container */
     font-family: 'Arial Rounded MT Bold', sans-serif;
-    color: #fff;
+    color: #ffffff;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     font-weight: bold;
 }
 
-header {
-    display: flex;
-    align-items: center;
-    padding: 5px;
-    background-color: #333;
-    color: #fff;
-    height: 50px;
-    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 
-                0px 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
 
-header a {
-    margin-right: 20px;
+#logo {
+    position: fixed;
+    top: 20px;
+    right: 150px;
+    width: 100px; /* Adjust as needed */
+    height: auto; /* Adjust as needed */
 }
-
-header img {
-    width: 50px;
-}
-
 main {
     display: flex;
     justify-content: center;
@@ -224,14 +213,18 @@ main {
     left: 35%;
     right: 35%;
     width: 30%;
+    height: 75vh;
     max-height: 46px; /* Adjust as needed */
     transition: max-height 0.3s ease-in-out;
-    overflow: visible;
     background-color: #f8f9fa; /* Adjust as needed */
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     z-index: 1;
     border: 2px solid black;
+}
+#leaderboard.expanded {
+    max-height: 75vh;
+    overflow-y: auto;
 }
 .leaderboard-item {
     display: flex;

@@ -53,15 +53,15 @@ app.post('/click', (req, res) => {
 });
 
 app.get('/leaderboard', (req, res) => {
-    const leaderboard = getLeaderboard(5);
+    const leaderboard = getLeaderboard();
     res.json({ leaderboard });
 });
 
-function getLeaderboard(limit) {
+function getLeaderboard() {
     // Sort the clickCounts array by the clickCounts property of each object
     const sortedCounts = clickCounts.sort((a, b) => b.clickCounts - a.clickCounts);
-    // Slice the array to get the top 'limit' countries and return it
-    return sortedCounts.slice(0, limit).map(({ country, countryCode, clickCounts }) => ({ country, countryCode, clickCounts }));
+    // Return the sorted array without slicing it
+    return sortedCounts.map(({ country, countryCode, clickCounts }) => ({ country, countryCode, clickCounts }));
 }
 
 app.listen(3000, () => {

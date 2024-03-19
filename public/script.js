@@ -113,7 +113,7 @@ function updateLeaderboard() {
                 countryElement.className = 'leaderboard-item';
                 countryElement.innerHTML = `
                     <div>
-                        <span class="rank">${index + 1}</span>
+                        <span class="rank">${index + 2}</span>
                         <img class="flag" src="https://flagsapi.com/${country.countryCode}/flat/24.png" alt="flag">
                         <span class="country-name">${country.country}</span>
                     </div>
@@ -345,10 +345,6 @@ function rotateApparatus() {
 document.getElementById('leaderboard').addEventListener('click', function() {
     updateLeaderboard();
     var leaderboard = document.getElementById('leaderboard');
-    var allCountries = document.getElementById('all-countries');
 
-    if (leaderboard.style.maxHeight !== '75vh') {
-        leaderboard.style.maxHeight = '75vh';
-    } else {
-        leaderboard.style.maxHeight = '46px';    }
+    leaderboard.classList.toggle('expanded');
 });
