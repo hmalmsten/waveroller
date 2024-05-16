@@ -81,10 +81,9 @@ function updateLeaderboard() {
     // Get the leaderboard container
     var leaderboardContainer = document.getElementById('all-countries');
 
-    // Clear the current leaderboard
-    while (leaderboardContainer.firstChild) {
-        leaderboardContainer.removeChild(leaderboardContainer.firstChild);
-    }
+    // Create a new container for the updated leaderboard
+    var newLeaderboardContainer = document.createElement('div');
+    newLeaderboardContainer.id = 'all-countries';
 
     // Fetch the updated leaderboard data from the server
     fetch('/leaderboard')
@@ -118,8 +117,11 @@ function updateLeaderboard() {
                     </div>
                     <span class="score">${country.clickCounts}</span>
                 `;
-                leaderboardContainer.appendChild(countryElement);
+                newLeaderboardContainer.appendChild(countryElement);
             });
+
+            // Replace the old leaderboard container with the new one
+            leaderboardContainer.parentNode.replaceChild(newLeaderboardContainer, leaderboardContainer);
         })
         .catch(error => console.error('Error:', error));
 }
