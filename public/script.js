@@ -1,4 +1,3 @@
-let clickCounts = {};
 
 // Initialize the selected country
 async function getCountry() {
@@ -96,13 +95,13 @@ function updateLeaderboard() {
 
             // Create the HTML for the top country
             var countryHTML = `
-                <div>
-                    <span class="rank">1</span>
-                    <img class="flag" src="https://flagsapi.com/${topCountry.countryCode}/flat/24.png" alt="flag">
-                    <span class="country-name">${topCountry.country}</span>
-                </div>
-                <span class="score">${topCountry.clickCounts}</span>
-            `;
+            <div>
+                <span class="rank">1</span>
+                <span class="fi fi-${topCountry.countryCode.toLowerCase()}"></span>
+                <span class="country-name">${topCountry.country}</span>
+            </div>
+            <span class="score">${topCountry.clickCounts}</span>
+        `;
 
             // Update the top country in the leaderboard
             document.getElementById('top-country').innerHTML = countryHTML;
@@ -114,7 +113,7 @@ function updateLeaderboard() {
                 countryElement.innerHTML = `
                     <div>
                         <span class="rank">${index + 2}</span>
-                        <img class="flag" src="https://flagsapi.com/${country.countryCode}/flat/24.png" alt="flag">
+                        <span class="fi fi-${country.countryCode.toLowerCase()}"></span>
                         <span class="country-name">${country.country}</span>
                     </div>
                     <span class="score">${country.clickCounts}</span>
@@ -128,7 +127,7 @@ function updateLeaderboard() {
 function updateFlag(countryCode) {
     // Update the flag display
     const flagElement = document.getElementById('country-flag');
-    flagElement.innerHTML = `<img src="https://flagsapi.com/${countryCode}/flat/64.png" alt="Flag of ${countryCode}">`;
+    flagElement.innerHTML = `<span class="fi fi-${countryCode.toLowerCase()}" style="font-size: 48px;"></span>`;
 }
 
 let progress = 0; // Progress starts at 0%
@@ -166,7 +165,7 @@ let lastRotationTime = Date.now();
 let images = [];
 for (let i = 0; i <= 30; i++) {
     let img = new Image();
-    img.src = `roller(${i}).png`;
+    img.src = `images/roller(${i}).png`;
     images.push(img);
 }
 
@@ -205,7 +204,10 @@ document.getElementById('right-button').onclick = function() {
     if (intervalId) {
         clearInterval(intervalId);
     }
-
+    buttonClickCount++;
+    if (buttonClickCount % 5 === 0 && !this.disabled) {
+        updateFillPercentage();
+    }
     // Disable the right button and enable the left button
     this.disabled = true;
     document.getElementById('left-button').disabled = false;
@@ -223,10 +225,7 @@ document.getElementById('right-button').onclick = function() {
     }, 1000 / images.length); // Set the interval so that all frames are shown within a second
 }
 
-    buttonClickCount++;
-    if (buttonClickCount % 5 === 0) {
-        updateFillPercentage();
-    }
+
 }
 
 document.getElementById('left-button').onclick = function() {
@@ -235,7 +234,10 @@ document.getElementById('left-button').onclick = function() {
     if (intervalId) {
         clearInterval(intervalId);
     }
-
+    buttonClickCount++;
+    if (buttonClickCount % 5 === 0 && !this.disabled) {
+        updateFillPercentage();
+    }
     // Disable the left button and enable the right button
     this.disabled = true;
     document.getElementById('right-button').disabled = false;
@@ -252,10 +254,7 @@ document.getElementById('left-button').onclick = function() {
         }
     }, 1000 / images.length); // Set the interval so that all frames are shown within a second
 }
-    buttonClickCount++;
-    if (buttonClickCount % 5 === 0) {
-        updateFillPercentage();
-    }
+
 }
 
 document.getElementById('right-button').onmousedown = function() {
@@ -298,10 +297,14 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
    
+let zapSound = new Audio('/sounds/zap.mp3');
+let swishSound = new Audio('/sounds/swish.wav');
+let glitchSound = new Audio('/sounds/glitch.wav');
 
 function rotateApparatus() {
     //const apparatusImg = document.getElementById('apparatus-img');
     //apparatusImg.style.transform = `rotate(${rotation}deg)`;
+
     penalty = 1
     bonus = 1
     const timeDifference = Date.now() - lastRotationTime;
@@ -310,11 +313,13 @@ function rotateApparatus() {
     if (timeDifference > 1000) {
         // If more than 0.5 seconds have passed, reward the player with more progress
         progress += 10 / (progress * 0.04 + 1);
+        playSound(zapSound);
     if (timeDifference < 1050) {
         // good timing reward
         progress += 6 / (progress * 0.04 + 1)
         bonus = 1.3
         progressBar.classList.add('smallshake');
+        playSound(swishSound);
         setTimeout(function() {
             progressBar.classList.remove('smallshake');
         }, 100);
@@ -324,6 +329,7 @@ function rotateApparatus() {
         // If less than 0.5 seconds have passed, punish the player with less progress
         penalty = timeDifference / 1000;
         progress += (10 / (progress * 0.04 + 1)) * penalty;
+        playSound(glitchSound);
     }
 
     if (progress > 80) {
@@ -348,3 +354,20 @@ document.getElementById('leaderboard').addEventListener('click', function() {
 
     leaderboard.classList.toggle('expanded');
 });
+
+//mute button
+let isMuted = false;
+const muteButton = document.getElementById('mute-button');
+
+muteButton.addEventListener('click', function() {
+    isMuted = !isMuted;
+    muteButton.src = isMuted ? 'images/mute.png' : 'images/unmute.png';
+});
+
+function playSound(sound) {
+    if (!isMuted) {
+        sound.pause();
+        sound.currentTime = 0;
+        sound.play();
+    }
+}

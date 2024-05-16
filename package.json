@@ -1,5 +1,9 @@
 {
   "dependencies": {
-    "express": "^4.18.2"
+    "countries-list": "^3.1.0",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.2.0",
+    "flag-icons": "^7.2.1",
+    "react-flagpack": "^1.2.0"
   }
 }

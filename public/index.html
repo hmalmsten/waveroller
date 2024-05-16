@@ -4,17 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css">
     <script defer src="script.js"></script>
     <title>Waveroller game</title>
 </head>
 <body>
     <a href="https://aw-energy.com/waveroller/">
-        <img id="logo" src="aw-energy.png" alt="Logo">
+        <img id="logo" src="images/aw-energy.png" alt="Logo">
     </a>
+    <img id="mute-button" src="images/unmute.png" alt="Mute button">
     <main>
         <div id="apparatus-container">
             <div id="center-container">
                 <div id="counter-container">
+                    <div id="energy-storage-label">Excess Energy Storage</div>
                     <div id="click-counter">0</div>
                 </div>
             </div>
@@ -22,11 +25,13 @@
                 <button id="left-button" class="circle-button"></button> <!-- Left button -->
                 <div id="progress-bar" class="progress-bar-vertical">
                     <div id="progress-fill" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="height: 0%;">
+                        <span class="bar-label">⚡Energy⚡</span>
                     </div>
                   </div>
                 <div id="country-flag"></div>
                 <div id="slider-bar" class="progress-bar-vertical">
                     <div id="slider-fill" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="height: 0%;">
+                        <span class="bar-label">Grid Demand💡</span>
                     </div>
                   </div>
                 <button id="right-button" class="circle-button"></button> <!-- Right button -->

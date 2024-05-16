@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const fs = require('fs');
+const rateLimit = require('express-rate-limit');
+const countries = require('countries-list');
 
 let clickCounts = [];
 
@@ -12,8 +14,11 @@ if (fs.existsSync('clickCounts.json')) {
     // If the file doesn't exist, create a new file with an empty array
     fs.writeFileSync('clickCounts.json', JSON.stringify([]));
 }
-
-
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 2000 // limit each IP to 100 requests per windowMs
+});
+app.use(limiter);
 app.use(express.static('public'));  // Serve static files from 'public' directory
 app.use(express.json());
 
@@ -35,6 +40,17 @@ app.post('/click', (req, res) => {
     const country = req.body.country || 'Finland';
     const count = req.body.count || 0;
     const countryCode = req.body.countryCode || 'FI';
+
+    // Validate the count
+    if (count <= 0 || count > 130) {
+        return //res.status(400).json({ error: 'Invalid count' });
+    }
+
+    // Validate the country
+    if (!countries.countries[countryCode]) {
+        return res.status(400).json({ error: 'Invalid country' });
+    }
+
     // Find the index of the object for the country
     let index = clickCounts.findIndex(obj => obj.country === country);
     // If it doesn't exist, create a new object and push it to the array

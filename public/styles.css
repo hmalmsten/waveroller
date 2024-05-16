@@ -4,7 +4,7 @@ body {
     justify-content: space-between;
     height: 100vh;
     margin: 0;
-    background: url('roller(0).png') no-repeat center center fixed, rgb(207, 239, 250); /* Initial frame is 25 */
+    background: url('images/roller(0).png') no-repeat center center fixed, rgb(207, 239, 250); /* Initial frame is 25 */
     background-size: cover; /* Cover the entire container */
     font-family: 'Arial Rounded MT Bold', sans-serif;
     color: #ffffff;
@@ -17,7 +17,7 @@ body {
     position: fixed;
     top: 20px;
     right: 150px;
-    width: 100px; /* Adjust as needed */
+    width: 200px; /* Adjust as needed */
     height: auto; /* Adjust as needed */
 }
 main {
@@ -58,7 +58,7 @@ main {
     transform: translate(-50%, -50%); 
     font-size: 6em; /* Increased font size */
     z-index: 1;
-    width: 200px; /* Adjust this value to accommodate the maximum number of digits */
+    width: 1000px; /* Adjust this value to accommodate the maximum number of digits */
     text-align: center; /* Center the text within the fixed width */
     
 }
@@ -90,15 +90,20 @@ main {
 .button-pressed {
     filter: brightness(80%);
 }
-
+#energy-storage-label {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 100px;
+}
 #left-button {
-    background-image: url('arrow-button-left.png'); /* Replace with the path to your image */
+    background-image: url('images/arrow-button-left.png'); /* Replace with the path to your image */
     position: fixed;
     left: 18%;
 }
 
 #right-button {
-    background-image: url('arrow-button-right.png'); /* Replace with the path to your image */
+    background-image: url('images/arrow-button-right.png'); /* Replace with the path to your image */
     position: fixed;
     right: 18%;
 }
@@ -145,6 +150,16 @@ main {
     to {
         background-position: 0 0;
     }
+}
+.bar-label {
+    color:white;
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2; 
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 #progress-fill {
     background-color: #e5ff0093; /* Color of the fill */
@@ -214,7 +229,7 @@ main {
     right: 35%;
     width: 30%;
     height: 75vh;
-    max-height: 46px; /* Adjust as needed */
+    max-height: 38px; /* Adjust as needed */
     transition: max-height 0.3s ease-in-out;
     background-color: #f8f9fa; /* Adjust as needed */
     border-top-left-radius: 10px;
@@ -234,11 +249,10 @@ main {
     padding: 10px;
 }
 
-#top-country {
-    /* Styles for the top country details */
-}
-
-#all-countries {
-
-    /* Styles for all countries details */
+#mute-button {
+    position: absolute;
+    top: 10px;
+    left: 33px;
+    width: 60px;
+    height: 60px;
 }
