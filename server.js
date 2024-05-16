@@ -23,20 +23,17 @@ app.use(express.static('public'));  // Serve static files from 'public' director
 app.use(express.json());
 
 app.get('/counts', (req, res) => {
-    console.log('Request:', req.query);
     const country = req.query.country || 'Finland';
     // Find the object for the country
     const countryObj = clickCounts.find(obj => obj.country === country);
     // Only fetch the click count, don't increment it
     const count = countryObj ? countryObj.clickCounts : 0;
-    console.log('count:', count);
     // Send the count back to the client
     res.json({ count });
 });
 
 
 app.post('/click', (req, res) => {
-    console.log("Request:", req.body)
     const country = req.body.country || 'Finland';
     const count = req.body.count || 0;
     const countryCode = req.body.countryCode || 'FI';
@@ -60,7 +57,6 @@ app.post('/click', (req, res) => {
         // Increment the click count of the existing object
         clickCounts[index].clickCounts += count;
     }
-    console.log ('clickCounts:', clickCounts);
     // Save the updated counts to a file or a database
     fs.writeFileSync('clickCounts.json', JSON.stringify(clickCounts));
 
