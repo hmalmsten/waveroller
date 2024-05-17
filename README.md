@@ -1,7 +1,7 @@
 ![image](https://github.com/hmalmsten/waveroller/assets/98034456/c519799b-518c-47ee-93d0-ccdcf414f70b)
 # Waveroller, the clicker game
 
-This is a simple application that counts energy stored from swaying the waveroller by country and displays a leaderboard.
+This is a interactive game that counts energy stored from swaying the waveroller by country and displays a leaderboard.
 
 
 ## Installation
