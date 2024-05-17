@@ -8,7 +8,7 @@ This is a simple application that counts energy stored from swaying the waveroll
 
 1. Clone the repository:
     ```
-    git clone https://github.com/yourusername/click-counter-app.git
+    git clone https://github.com/hmalmsten/waveroller
     ```
 2. Navigate to the project directory:
     ```
